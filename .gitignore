@@ -1,0 +1,51 @@
+# 编译输出文件
+*.exe
+*.out
+*.o
+*.a
+*.so
+*.dll
+
+# Go Modules 相关
+/vendor/
+go.sum
+go.work
+go.work.sum
+
+# IDE & 编辑器相关
+.vscode/
+.idea/
+*.iml
+
+# 临时文件
+*.log
+*.tmp
+*.swp
+*.swo
+*.DS_Store
+
+# 覆盖测试缓存和结果
+*.test
+*.prof
+*.cover
+.coverage
+
+# 覆盖 Git 目录
+.git/
+.gitignore
+
+# 覆盖二进制构建
+bin/
+dist/
+build/
+
+# Docker & 容器相关
+*.tar
+*.img
+.env
+docker-compose.override.yml
+
+config.toml
+# 依赖管理
+Gopkg.lock
+Gopkg.toml
