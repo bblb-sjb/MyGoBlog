@@ -10,12 +10,11 @@
     UserName = "bblb"
     UserDesc = "长得非常帅的程序员"
 [system]
-    # "https://static.mszlu.com/goblog/es6/md-assets"
-    CdnURL = ""
+    CdnURL = "https://static.mszlu.com/goblog/es6/md-assets"
 
     QiniuAccessKey = "bblb"
     QiniuSecretKey = "bblb"
     Valine = true
-    ValineAppid = "bblb"
-    ValineAppkey = "bblb"
-    ValineServerURL = "bblb"
+    ValineAppid = "JN05lPqGIrVIbVr74VeO83s8-gzGzoHsz"
+    ValineAppkey = "4xowYJZXsHNPL5QHMsT3zBkf"
+    ValineServerURL = "https://jn05lpqg.lc-cn-n1-shared.com"

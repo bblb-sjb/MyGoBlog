@@ -6,12 +6,10 @@ import (
 	"myWeb/models"
 )
 
-func GetAllCategory(page, limit int) ([]models.Category, error) {
-	// 计算偏移量
-	offset := (page - 1) * limit
+func GetAllCategory() ([]models.Category, error) {
 
 	// 执行查询
-	rows, err := DB.Query("SELECT cid, name, create_at, update_at FROM blog_category LIMIT ?,?", limit, offset)
+	rows, err := DB.Query("SELECT cid, name, create_at, update_at FROM blog_category")
 	if err != nil {
 		log.Printf("查询分类异常: %v", err)
 		return nil, err
