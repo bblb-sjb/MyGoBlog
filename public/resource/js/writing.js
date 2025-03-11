@@ -29,46 +29,74 @@ function initEditor() {
     // emoji: true,
     imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
     // imageUploadURL: "/api/v1/uploadfile",
+    // imageUploadCalback: function (files, cb) {
+    //   uploadImage(files[0], cb);
+    // },
     imageUploadCalback: function (files, cb) {
-      uploadImage(files[0], cb);
+      let formData = new FormData();
+      formData.append("file", files[0]);
+
+      fetch("/api/v1/upload/oss", {  // 这里是后端的文件上传接口
+        method: "POST",
+        body: formData
+      })
+          .then(response => response.json())
+          .then(data => {
+            if (data.code === 200) {
+              // 上传成功，回调并回显 URL
+              cb(data.data.url);  // 将返回的 URL 传递给编辑器
+              // 可以根据需求在其他地方显示该图片
+              console.log("上传成功，图片 URL：", data.data.url);
+            } else {
+              // 上传失败，处理错误
+              alert("上传失败：" + (data.error || "未知错误"));
+            }
+          })
+          .catch(error => {
+            console.error("上传失败", error);
+            alert("上传失败，请重试！");
+          });
     },
   });
 }
-function uploadImage(file, cb) {
-  const config = {
-    useCdnDomain: true,
-    region: qiniu.region.z1
-  };
-  const putExtra = {
-  };
-  // 异步获取临时密钥
-  $.ajax({
-    url: "/api/v1/qiniu/token",
-    type: "GET",
-    contentType: "application/json",
-    success: function (res) {
-      if (res.code !== 200) return alert(res.error);
-      const token = res.data;
-      const observable = qiniu.upload(file, "goblog/upload/"+Date.now() + "_" + file.name, token, putExtra, config)
-      const observer = {
-        next(res){
-          // ...
-        },
-        error(err){
-          // ...
-        },
-        complete(res){
-          console.log(res)
-          cb("https://static.mszlu.com/" + res.key)
-        }
-      }
-      const subscription = observable.subscribe(observer) // 上传开始
+// function uploadImage(file, cb) {
+//   const config = {
+//     useCdnDomain: true,
+//     region: qiniu.region.z1
+//   };
+//   const putExtra = {
+//   };
+//   // 异步获取临时密钥
+//   $.ajax({
+//     url: "/api/v1/qiniu/token",
+//     type: "GET",
+//     contentType: "application/json",
+//     success: function (res) {
+//       if (res.code !== 200) return alert(res.error);
+//       const token = res.data;
+//       const observable = qiniu.upload(file, "goblog/upload/"+Date.now() + "_" + file.name, token, putExtra, config)
+//       const observer = {
+//         next(res){
+//           // ...
+//         },
+//         error(err){
+//           // ...
+//         },
+//         complete(res){
+//           console.log(res)
+//           cb("https://static.mszlu.com/" + res.key)
+//         }
+//       }
+//       const subscription = observable.subscribe(observer) // 上传开始
+//
+//     },
+//     beforeSend: setAjaxToken,
+//   });
+//
+// }
 
-    },
-    beforeSend: setAjaxToken,
-  });
 
-}
+
 
 
 function getArticleItem(id) {

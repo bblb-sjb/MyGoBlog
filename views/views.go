@@ -1,6 +1,7 @@
 package views
 
 import (
+	"myWeb/context"
 	"net/http"
 )
 
@@ -12,6 +13,16 @@ type HTMLRenderer interface {
 	Category(w http.ResponseWriter, r *http.Request)
 	Login(w http.ResponseWriter, r *http.Request)
 	Detail(w http.ResponseWriter, r *http.Request)
+	Writing(w http.ResponseWriter, r *http.Request)
+	Pigeonhole(w http.ResponseWriter, r *http.Request)
+
+	IndexNew(ctx *context.MsContext)
+	LoginNew(ctx *context.MsContext)
+	CategoryNew(ctx *context.MsContext)
+	DetailNew(ctx *context.MsContext)
+	WritingNew(ctx *context.MsContext)
+	PigeonholeNew(ctx *context.MsContext)
+	SlugNew(ctx *context.MsContext)
 }
 
 type HTMLApi struct {

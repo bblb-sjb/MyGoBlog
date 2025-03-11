@@ -4,9 +4,11 @@ import (
 	"errors"
 	"log"
 	"myWeb/common"
+	"myWeb/context"
 	"myWeb/service"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 func (*HTMLApi) Index(w http.ResponseWriter, r *http.Request) {
@@ -30,12 +32,62 @@ func (*HTMLApi) Index(w http.ResponseWriter, r *http.Request) {
 	if limitStr != "" {
 		limit, _ = strconv.Atoi(limitStr)
 	}
-
-	hr, err := service.GetAllIndexInfo(page, limit)
+	path := r.URL.Path
+	slug := strings.TrimPrefix(path, "/")
+	hr, err := service.GetAllIndexInfo(slug, page, limit)
 	if err != nil {
 		log.Printf("查询Index信息异常：%v", err)
 		index.WriteError(w, errors.New("查询Index信息异常,请联系管理员"))
 	}
 
 	index.WriteData(w, hr)
+}
+
+func (*HTMLApi) IndexNew(ctx *context.MsContext) {
+	index := common.Template.Index
+
+	pageStr, _ := ctx.GetForm("page")
+	page := 1
+	if pageStr != "" {
+		page, _ = strconv.Atoi(pageStr)
+	}
+	//获取每页显示的条数
+	limitStr, _ := ctx.GetForm("limit")
+	limit := 10
+	if limitStr != "" {
+		limit, _ = strconv.Atoi(limitStr)
+	}
+	slug := ctx.GetPathVariable("slug")
+	hr, err := service.GetAllIndexInfo(slug, page, limit)
+	if err != nil {
+		log.Printf("查询Index信息异常：%v", err)
+		index.WriteError(ctx.W, errors.New("查询Index信息异常,请联系管理员"))
+	}
+
+	index.WriteData(ctx.W, hr)
+}
+
+func (*HTMLApi) SlugNew(ctx *context.MsContext) {
+	index := common.Template.Index
+
+	pageStr, _ := ctx.GetForm("page")
+	page := 1
+	if pageStr != "" {
+		page, _ = strconv.Atoi(pageStr)
+	}
+	//获取每页显示的条数
+	limitStr, _ := ctx.GetForm("limit")
+	limit := 10
+	if limitStr != "" {
+		limit, _ = strconv.Atoi(limitStr)
+	}
+	slug := ctx.GetPathVariable("slug")
+	hr, err := service.GetAllIndexInfo(slug, page, limit)
+	if err != nil {
+		log.Printf("查询Index信息异常：%v", err)
+		index.WriteError(ctx.W, errors.New("查询Index信息异常,请联系管理员"))
+	}
+
+	index.WriteData(ctx.W, hr)
+
 }

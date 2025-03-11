@@ -8,16 +8,26 @@ import (
 	"myWeb/models"
 )
 
-func GetAllIndexInfo(page, limit int) (*models.HomeResponse, error) {
+func GetAllIndexInfo(slug string, page, limit int) (*models.HomeResponse, error) {
 	categorys, err := dao.GetAllCategory()
 	if err != nil {
 		log.Println("查询分类异常")
 		return nil, err
 	}
-	posts, err := dao.GetPostArticlePage(page, limit)
-	if err != nil {
-		log.Println("查询文章异常")
-		return nil, err
+	var posts []models.Post
+
+	if slug == "" {
+		posts, err = dao.GetPostArticlePage(page, limit)
+		if err != nil {
+			log.Println("查询文章异常")
+			return nil, err
+		}
+	} else {
+		posts, err = dao.GetPostBySlug(slug, page, limit)
+		if err != nil {
+			log.Println("查询分类异常")
+			return nil, err
+		}
 	}
 
 	var postMores []models.PostMore
@@ -45,7 +55,13 @@ func GetAllIndexInfo(page, limit int) (*models.HomeResponse, error) {
 		postMores = append(postMores, postMore)
 	}
 
-	total := dao.CountGetAllPost()
+	var total int
+	if slug == "" {
+		total = dao.CountGetAllPost()
+	} else {
+		total = dao.CountGetAllPostBySlug(slug)
+	}
+
 	pagesCount := (total-1)/limit + 1
 	var pages []int
 	for i := 0; i < pagesCount; i++ {

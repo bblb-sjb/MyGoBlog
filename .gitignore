@@ -45,7 +45,7 @@ build/
 .env
 docker-compose.override.yml
 
-config.toml
+*.toml
 # 依赖管理
 Gopkg.lock
 Gopkg.toml

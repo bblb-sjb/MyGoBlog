@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"myWeb/common"
+	"myWeb/context"
 	"myWeb/service"
 	"net/http"
 	"strconv"
@@ -17,7 +18,7 @@ func (*HTMLApi) Category(w http.ResponseWriter, r *http.Request) {
 	cIdStr := strings.TrimPrefix(path, "/c/")
 	cId, err := strconv.Atoi(cIdStr)
 	if err != nil {
-		categoryTemplate.WriteError(w, errors.New("不识别此请求路径"))
+		categoryTemplate.WriteError(w, errors.New("Category不识别此请求路径"))
 		return
 	}
 	if err := r.ParseForm(); err != nil {
@@ -38,4 +39,24 @@ func (*HTMLApi) Category(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	categoryTemplate.WriteData(w, categoryResponse)
+}
+
+func (*HTMLApi) CategoryNew(ctx *context.MsContext) {
+	categoryTemplate := common.Template.Category
+	//http://localhost:8080/c/1  1参数 分类的id
+	cIdStr := ctx.GetPathVariable("cid")
+	cId, _ := strconv.Atoi(cIdStr)
+	pageStr, _ := ctx.GetForm("page")
+	if pageStr == "" {
+		pageStr = "1"
+	}
+	page, _ := strconv.Atoi(pageStr)
+	//每页显示的数量
+	pageSize := 10
+	categoryResponse, err := service.GetPostsByCategoryId(cId, page, pageSize)
+	if err != nil {
+		categoryTemplate.WriteError(ctx.W, err)
+		return
+	}
+	categoryTemplate.WriteData(ctx.W, categoryResponse)
 }

@@ -10,7 +10,7 @@
     UserName = "bblb"
     UserDesc = "长得非常帅的程序员"
 [system]
-    CdnURL = "https://static.mszlu.com/goblog/es6/md-assets"
+    CdnURL = "/resource"
 
     QiniuAccessKey = "bblb"
     QiniuSecretKey = "bblb"
