@@ -15,6 +15,6 @@
     QiniuAccessKey = "bblb"
     QiniuSecretKey = "bblb"
     Valine = true
-    ValineAppid = "JN05lPqGIrVIbVr74VeO83s8-gzGzoHsz"
-    ValineAppkey = "4xowYJZXsHNPL5QHMsT3zBkf"
-    ValineServerURL = "https://jn05lpqg.lc-cn-n1-shared.com"
+    ValineAppid = "xxx" #用自己的
+    ValineAppkey = "xxx" #用自己的
+    ValineServerURL = "xxx" #用自己的
