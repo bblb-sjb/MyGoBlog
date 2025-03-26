@@ -1,5 +1,5 @@
 [oss]
-    AccessKeyID     = "LTAI5tMBocyYMe4jssyQeH4k"
-    AccessKeySecret = "om24mj4f8MxpcRlNQcIU6adFrKmGp6"
-    Endpoint        = "oss-cn-beijing.aliyuncs.com"
-    BucketName      = "sjb-web-tlias"
+    AccessKeyID     = "xxx" # 用自己的
+    AccessKeySecret = "xxx" # 用自己的
+    Endpoint        = "xxx" # 用自己的
+    BucketName      = "xxx" # 用自己的
